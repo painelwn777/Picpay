@@ -10,7 +10,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>PicPay</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: #f0f0f0; display: flex; justify-content: center; min-height: 100vh; }
@@ -292,6 +293,649 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
 .salvar-btn { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 398px; background: var(--verde); color: #fff; border: none; padding: 16px; border-radius: 24px; font-weight: 700; font-size: 16px; cursor: pointer; z-index: 50; }
 
 .pb-nav { padding-bottom: 70px; }
+
+
+/* ===== VISUAL DO VÍDEO — mantém toda a lógica e funcionalidades existentes ===== */
+body { background:#fff; }
+.app { max-width:430px; background:#fff; }
+#screen-home { background:#fff; padding-bottom:72px; }
+
+/* Cabeçalho compacto */
+#screen-home .home-header {
+  background:#1b9e83;
+  padding:12px 16px 8px;
+  gap:10px;
+}
+#screen-home .profile-pic {
+  width:38px;height:38px;background:#5146c9;border:0;
+}
+#screen-home .search-bar {
+  background:#138b74;color:#dff7f0;border-radius:20px;
+  height:34px;padding:7px 13px;font-size:13px;
+}
+#screen-home .search-bar svg { stroke:#b9e7dc; }
+#screen-home .header-icons { gap:10px; }
+#screen-home .header-icons svg {
+  width:21px;height:21px;stroke:#fff;
+}
+
+/* Seletor de contas do vídeo */
+.account-switcher {
+  display:flex;align-items:center;gap:8px;
+  background:#1b9e83;padding:2px 16px 12px;
+}
+.account-pill {
+  height:34px;padding:0 13px;border-radius:20px;
+  background:#118b73;color:#d9f4ee;
+  display:flex;align-items:center;gap:6px;font-size:11px;
+  white-space:nowrap;
+}
+.account-pill.active {
+  background:#fff;color:#333;font-weight:700;
+}
+.pill-logo {
+  width:20px;height:20px;border-radius:50%;
+  background:#20c997;color:#fff;display:inline-flex;
+  align-items:center;justify-content:center;font-size:11px;font-weight:800;
+}
+.pill-logo.dark { background:#24463f; }
+.account-add {
+  width:32px;height:32px;border-radius:50%;
+  background:#118b73;color:#fff;display:flex;
+  align-items:center;justify-content:center;font-size:22px;
+}
+
+/* Cartão de saldo */
+#screen-home .balance-card {
+  margin:0 16px 0;
+  border-radius:14px;
+  padding:16px;
+  background:#158f77;
+  color:#fff;
+  min-height:158px;
+  box-shadow:none;
+}
+#screen-home .balance-card .top { margin-bottom:9px; }
+#screen-home .balance-card .label,
+#screen-home .balance-card .ver-extrato { font-size:11px; }
+#screen-home .balance-card .saldo-label { font-size:13px; }
+#screen-home .balance-card .saldo-valor {
+  font-size:20px;line-height:1.05;margin-bottom:5px;
+}
+#screen-home .balance-card .limite {
+  font-size:10px;margin-bottom:12px;
+}
+#screen-home .guardar-btn {
+  height:27px;padding:4px 12px;border-radius:16px;
+  background:#23a98d;color:#fff;font-size:11px;
+}
+#screen-home .eye-icon { right:18px;bottom:57px; }
+#screen-home .eye-icon svg { width:18px;height:18px; }
+
+/* Pontos do carrossel */
+#screen-home .balance-card::after {
+  content:'•  •';
+  position:absolute;bottom:-20px;left:50%;
+  transform:translateX(-50%);font-size:16px;letter-spacing:2px;
+  color:#168e77;
+}
+
+/* Dia a dia como no vídeo */
+#screen-home .section-title {
+  font-size:13px;padding:24px 16px 9px;font-weight:700;
+}
+#screen-home .daily-grid {
+  display:flex;gap:10px;overflow:hidden;padding:0 16px;
+}
+#screen-home .daily-item {
+  min-width:72px;gap:5px;
+}
+#screen-home .daily-icon {
+  width:58px;height:58px;border-radius:12px;
+  background:#f0f0f0;
+}
+#screen-home .daily-icon.pix { background:#1b9e83; }
+#screen-home .daily-item .label { font-size:10px;line-height:1.1; }
+
+/* Blocos de menu no estilo do vídeo */
+#screen-home .menu-list { padding:0 16px; }
+#screen-home .menu-item {
+  background:#f5f5f5;border:0;border-radius:14px;
+  margin:8px 0;padding:13px 16px;
+}
+#screen-home .menu-item .mi-icon { display:none; }
+#screen-home .menu-item .mi-text { font-size:12px; }
+#screen-home .menu-item .mi-arrow { display:none; }
+
+/* Deixa conteúdo secundário mais compacto, sem remover funcionalidades */
+#screen-home .suggestions,
+#screen-home .offer-banner,
+#screen-home .solution-card,
+#screen-home .help-section { margin-top:2px; }
+#screen-home .suggestions { gap:10px; }
+#screen-home .sug-icon { width:54px;height:54px; }
+
+/* Botão circular do vídeo */
+.floating-qr {
+  position:fixed;right:max(calc((100vw - 430px)/2 + 16px),16px);
+  bottom:76px;width:48px;height:48px;border-radius:50%;
+  border:0;background:#111;color:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.25);
+  z-index:120;display:flex;align-items:center;justify-content:center;
+}
+.floating-qr .qr-dot {
+  width:25px;height:25px;border:2px solid #fff;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+
+/* Barra inferior */
+#screen-home .bottom-nav {
+  height:62px;padding:7px 0 6px;
+  border-top:1px solid #e5e5e5;
+  box-shadow:0 -2px 8px rgba(0,0,0,.04);
+}
+#screen-home .nav-item { font-size:9px;color:#222;gap:2px; }
+#screen-home .nav-item.active { color:#fff; }
+#screen-home .nav-item.active::before {
+  content:'';position:absolute;
+  width:38px;height:38px;border-radius:50%;
+  background:#1b9e83;z-index:-1;
+}
+#screen-home .nav-item { position:relative; }
+#screen-home .nav-item svg { width:19px;height:19px; }
+
+/* Área Pix semelhante ao vídeo */
+#screen-pix-area { background:#fff; }
+#screen-pix-area .header {
+  padding:13px 16px 8px;
+}
+#screen-pix-area .header .title { font-size:19px; }
+#screen-pix-area .pix-grid {
+  grid-template-columns:repeat(4,1fr);gap:13px;padding:12px 16px;
+}
+#screen-pix-area .pix-icon {
+  width:56px;height:56px;border-radius:11px;background:#f1f1f1;
+  color:#222;
+}
+#screen-pix-area .pix-icon svg { width:24px;height:24px;stroke:#222; }
+#screen-pix-area .pix-item .label { font-size:9px;line-height:1.15; }
+#screen-pix-area .pix-icon.light { background:#f1f1f1;color:#222; }
+
+/* Rolagem e toques */
+button,.daily-item,.menu-item,.pix-item { -webkit-user-select:none; user-select:none; }
+
+
+/* Funcionalidades adicionadas a partir do fluxo mostrado no vídeo */
+#screen-extrato .header, #screen-novo-lancamento .header, #screen-pix-qr .header,
+#screen-pix-copia .header, #screen-cobrar-pix .header, #screen-chaves .header,
+#screen-limites .header { background:#fff; color:#111; border-bottom:1px solid #eee; }
+
+.statement-head{padding:8px 18px 4px}
+.statement-balance{font-size:21px;font-weight:800;margin:7px 0 14px}
+.statement-actions{display:flex;align-items:center;gap:8px}
+.stmt-tab{border:0;background:#f1f1f1;border-radius:18px;padding:9px 15px;font-size:12px}
+.stmt-tab.active{background:#111;color:#fff}
+.stmt-icon{margin-left:auto;border:0;background:#f3f3f3;width:38px;height:38px;border-radius:50%;font-size:20px}
+.statement-search{padding:8px 18px}
+.statement-search input{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:12px;padding:12px}
+.statement-list{padding:6px 18px 100px}
+.day-label{font-size:11px;font-weight:700;color:#777;margin:18px 0 8px}
+.movement{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #eee}
+.mov-icon{width:38px;height:38px;border-radius:12px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;font-weight:800}
+.mov-main{flex:1;min-width:0}.mov-name{font-size:13px;font-weight:700}.mov-desc{font-size:10px;color:#777;margin-top:3px}
+.mov-value{font-size:12px;font-weight:800;white-space:nowrap}
+.mov-value.entrada{color:#129b70}
+.new-launch-fab{position:fixed;right:18px;bottom:92px;width:54px;height:54px;border:0;border-radius:50%;background:#111;color:#fff;font-size:30px;box-shadow:0 5px 18px #0003;z-index:30}
+.launch-form{padding:20px 18px 90px}
+.launch-toggle{display:flex;background:#f1f1f1;border-radius:24px;padding:3px;margin-bottom:20px}
+.launch-toggle button{flex:1;border:0;border-radius:21px;padding:11px;background:transparent;font-weight:700}
+.launch-toggle button.active{background:#1b9e83;color:#fff}
+.launch-form label{display:block;font-size:11px;color:#777;margin:15px 0 6px}
+.launch-form input{width:100%;box-sizing:border-box;border:1px solid #e2e2e2;border-radius:11px;padding:13px;font-size:14px}
+.launch-submit,.qr-screen button,.copy-paste-screen button,.charge-screen button{width:100%;border:0;border-radius:22px;background:#1b9e83;color:#fff;padding:14px;font-weight:800;margin-top:22px}
+.qr-screen,.copy-paste-screen,.charge-screen,.keys-screen,.limits-screen{padding:22px 18px}
+.qr-screen{text-align:center}
+.qr-fake{width:190px;height:190px;display:flex;align-items:center;justify-content:center;margin:15px auto 22px;border:10px solid #111;background:
+linear-gradient(90deg,#111 10px,transparent 10px 20px,#111 20px 30px,transparent 30px 42px,#111 42px 52px,transparent 52px 64px,#111 64px 76px,transparent 76px 90px,#111 90px 100px,transparent 100px 112px,#111 112px 125px,transparent 125px 138px,#111 138px 150px,transparent 150px 164px,#111 164px 176px,transparent 176px),
+linear-gradient(#111 10px,transparent 10px 20px,#111 20px 30px,transparent 30px 42px,#111 42px 52px,transparent 52px 64px,#111 64px 76px,transparent 76px 90px,#111 90px 100px,transparent 100px 112px,#111 112px 125px,transparent 125px 138px,#111 138px 150px,transparent 150px 164px,#111 164px 176px);background-size:100% 100%}
+.qr-screen p{font-size:12px;color:#777;line-height:1.5}
+.copy-paste-screen label{font-size:12px;color:#666}
+.copy-paste-screen textarea{width:100%;height:140px;box-sizing:border-box;margin-top:8px;border:1px solid #ddd;border-radius:12px;padding:12px;resize:none}
+.charge-screen h3{margin:4px 0 20px}
+.charge-value{display:flex;align-items:center;border-bottom:2px solid #1b9e83;padding:8px 0;margin-bottom:20px}
+.charge-value span{font-size:16px;margin-right:8px}
+.charge-value input{border:0;outline:0;font-size:30px;width:100%}
+.simple-input{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:11px;padding:13px}
+.charge-result{margin-top:18px;background:#f3f3f3;border-radius:14px;padding:18px;font-size:12px;line-height:1.5}
+.key-card,.limit-card{display:flex;align-items:center;gap:12px;background:#f3f3f3;border-radius:14px;padding:15px;margin:10px 0}
+.key-card>div{flex:1}.key-card small,.limit-card small{display:block;color:#777;font-size:10px}.key-card strong{display:block;font-size:12px;margin-top:3px;word-break:break-all}.key-card button{border:0;background:#fff;border-radius:16px;padding:8px 11px}
+.dark-wide,.light-wide{width:100%;padding:13px;border-radius:22px;margin-top:12px;font-weight:700}
+.dark-wide{background:#111;color:#fff;border:0}.light-wide{background:#f2f2f2;border:0}
+.limit-card{display:block}.limit-card span{display:block;font-size:12px}.limit-card strong{display:block;font-size:18px;margin:7px 0}
+
+
+/* Ajustes de fidelidade ao vídeo */
+.balance-card {
+  margin: 10px 8px !important;
+  width: calc(100% - 16px) !important;
+  box-sizing: border-box !important;
+  border-radius: 16px !important;
+  padding: 18px 16px !important;
+}
+.balance-card .saldo-valor.saldo-oculto,
+.balance-card .limite.limite-oculto,
+.balance-card .limite-oculto {
+  filter: none !important;
+  -webkit-filter: none !important;
+  color: transparent !important;
+  position: relative;
+  user-select: none;
+}
+.balance-card .saldo-valor.saldo-oculto::after {
+  content: "R$ ••••••••";
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+.balance-card .limite-oculto::after {
+  content: "R$ ••••••••";
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+}
+.balance-card .eye-icon {
+  right: 16px !important;
+  bottom: 54px !important;
+  opacity: .9;
+}
+.balance-card .eye-icon svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+.daily-icon .badge,
+.pix-icon .pix-badge {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  max-width: none !important;
+  font-size: 7px !important;
+  line-height: 1.1 !important;
+  padding: 3px 5px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: -5px !important;
+}
+.pix-icon .pix-badge { top: -6px !important; }
+
+.modal-saldo {
+  width: calc(100% - 32px) !important;
+  max-width: 390px !important;
+  border-radius: 22px !important;
+  padding: 22px 18px 18px !important;
+  box-sizing: border-box !important;
+}
+.modal-saldo h3 {
+  font-size: 17px !important;
+  margin: 0 0 16px !important;
+  text-align: left !important;
+}
+.modal-saldo input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border: 1px solid #ddd !important;
+  border-radius: 12px !important;
+  background: #f7f7f7 !important;
+  padding: 15px 14px !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  margin-bottom: 12px !important;
+}
+.modal-saldo .finalizar {
+  border-radius: 24px !important;
+  background: var(--verde) !important;
+  padding: 13px !important;
+}
+.modal-saldo .cancelar {
+  border-radius: 24px !important;
+  padding: 12px !important;
+}
+
+/* Tela de extrato alinhada ao vídeo */
+#screen-extrato .header { padding: 14px 16px 10px !important; }
+.statement-head { padding: 4px 18px 8px !important; }
+.statement-balance { font-size: 18px !important; margin: 4px 0 16px !important; }
+
+
+/* Não cortar a etiqueta "EM ATÉ 12X" */
+.daily-icon, .pix-icon, .sug-pix-icon, .shortcut-icon, .menu-icon {
+  overflow: visible !important;
+}
+.daily-icon .badge, .pix-icon .pix-badge {
+  top: 0 !important;
+  z-index: 20 !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+.daily-icon .badge { margin-top: -2px !important; }
+
+
+/* Saldo oculto: número permanece no lugar e fica embaçado, como no vídeo. */
+.balance-card .saldo-valor.saldo-oculto,
+.balance-card .limite.limite-oculto {
+  filter: blur(5px) !important;
+  -webkit-filter: blur(5px) !important;
+  color: #fff !important;
+  user-select: none;
+}
+.balance-card .saldo-valor.saldo-oculto::after,
+.balance-card .limite.limite-oculto::after {
+  content: none !important;
+}
+
+
+.balance-card .eye-icon {
+  bottom: 104px !important;
+  width: 34px !important;
+  height: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+}
+.balance-card .eye-icon svg {
+  width: 24px !important;
+  height: 24px !important;
+  fill: none !important;
+  stroke: #e8fff8 !important;
+  stroke-width: 1.7 !important;
+}
+
+
+.balance-card {
+  width: calc(100% - 28px) !important;
+  margin-left: 14px !important;
+  margin-right: 14px !important;
+  box-sizing: border-box !important;
+}
+
+
+/* QR flutuante — ícone QR real, sem o símbolo "⌗" */
+.floating-qr {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 50% !important;
+  background: #111 !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.24) !important;
+}
+.floating-qr .qr-real-icon {
+  width: 29px !important;
+  height: 29px !important;
+  display: block !important;
+}
+.floating-qr:active { transform: scale(.96); }
+
+
+/* ===== Saldo inicial / Extrato — acabamento inspirado na referência enviada ===== */
+.balance-card {
+  width: calc(100% - 28px) !important;
+  margin: 16px 14px 0 !important;
+  min-height: 264px !important;
+  padding: 28px 24px 18px !important;
+  border-radius: 28px !important;
+}
+.balance-card .top { margin-bottom: 18px !important; }
+.balance-card .saldo-label {
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  margin-bottom: 2px !important;
+}
+.balance-card .saldo-valor {
+  font-size: 31px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.5px !important;
+  margin-bottom: 8px !important;
+}
+.balance-card .rendimento {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  margin-bottom: 28px !important;
+  opacity: .96 !important;
+}
+.balance-card .guardar-btn {
+  height: 48px !important;
+  border-radius: 26px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  width: 100% !important;
+}
+.balance-card .eye-icon {
+  right: 22px !important;
+  bottom: 116px !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+.balance-card .eye-icon svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* Olho: afastado do botão Guardar */
+.balance-card .eye-icon { bottom: 116px !important; }
+
+/* Extrato */
+#screen-extrato {
+  background: #fff !important;
+  min-height: 100vh !important;
+}
+.extrato-topbar {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid #eee;
+}
+.extrato-topbar button {
+  border: 0;
+  background: transparent;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.extrato-topbar button:active { background:#f1f1f1; }
+.extrato-topbar svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: #222;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.extrato-title {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 42px;
+}
+.extrato-head {
+  padding: 22px 20px 13px;
+}
+.extrato-label {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 5px;
+}
+.extrato-total {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+}
+.extrato-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 8px 20px 12px;
+}
+.extrato-tabs .stmt-tab {
+  border: 0;
+  background: #f1f2f2;
+  color: #333;
+  border-radius: 22px;
+  padding: 10px 19px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.extrato-tabs .stmt-tab.active {
+  background: #111;
+  color: #fff;
+}
+.search-extrato-box {
+  margin: 2px 20px 8px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f3f3f3;
+  border-radius: 22px;
+  padding: 0 14px;
+}
+.search-extrato-box svg {
+  width: 20px; height:20px; fill:none; stroke:#777; stroke-width:2;
+}
+.search-extrato-box input {
+  border:0; outline:0; background:transparent; width:100%;
+  font-size:13px;
+}
+.extrato-periodo {
+  padding: 14px 20px 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+#screen-extrato .statement-list {
+  padding: 0 20px 105px !important;
+}
+#screen-extrato .day-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #777;
+  margin: 17px 0 2px;
+}
+#screen-extrato .movement {
+  min-height: 67px;
+  padding: 12px 0;
+  gap: 12px;
+}
+#screen-extrato .mov-icon {
+  width: 42px; height:42px;
+  border-radius: 50%;
+  background:#f2f2f2;
+  font-size:17px;
+}
+#screen-extrato .mov-name { font-size: 14px; font-weight: 650; }
+#screen-extrato .mov-desc { font-size: 11px; color:#858585; margin-top:4px; }
+#screen-extrato .mov-value { font-size: 13px; font-weight: 750; }
+#screen-extrato .new-launch-fab {
+  right: 18px;
+  bottom: 78px;
+  width: 55px; height:55px;
+  background:#111;
+  display:flex; align-items:center; justify-content:center;
+}
+#screen-extrato .new-launch-fab span { font-size: 31px; line-height: 1; margin-top:-2px; }
+
+
+/* Ajuste final de tamanho do cartão de saldo */
+.balance-card {
+  min-height: 218px !important;
+  padding: 20px 18px 14px !important;
+  border-radius: 24px !important;
+  margin-top: 12px !important;
+}
+.balance-card .top { margin-bottom: 12px !important; }
+.balance-card .saldo-label { font-size: 18px !important; }
+.balance-card .saldo-valor { font-size: 28px !important; margin-bottom: 5px !important; }
+.balance-card .rendimento { font-size: 14px !important; margin-bottom: 18px !important; }
+.balance-card .guardar-btn { height: 44px !important; font-size: 15px !important; }
+.balance-card .eye-icon { bottom: 62px !important; right: 16px !important; z-index:50 !important; pointer-events:auto !important; }
+.balance-card .saldo-valor.saldo-oculto {
+  filter: blur(5px) !important;
+  -webkit-filter: blur(5px) !important;
+  opacity: .95 !important;
+}
+.balance-card .limite.limite-oculto {
+  filter: blur(4px) !important;
+  -webkit-filter: blur(4px) !important;
+}
+#launch-valor { font-variant-numeric: tabular-nums; }
+#screen-extrato .extrato-topbar { height: 56px !important; }
+#screen-extrato .extrato-head { padding: 17px 20px 9px !important; }
+#screen-extrato .extrato-total { font-size: 25px !important; }
+#screen-extrato .extrato-tabs { padding-top: 6px !important; }
+#screen-novo-lancamento .launch-form input#launch-valor {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+
+/* ===== Ajuste final: saldo, extrato e ícones no padrão da referência ===== */
+.balance-card .saldo-valor.saldo-oculto {
+  filter: blur(7px) !important;
+  -webkit-filter: blur(7px) !important;
+  opacity: .98 !important;
+}
+.balance-card .limite,
+.balance-card .rendimento {
+  filter: none !important;
+  -webkit-filter: none !important;
+  color: inherit !important;
+  opacity: 1 !important;
+}
+.balance-card .limite.limite-oculto,
+.balance-card .limite-oculto {
+  filter: none !important;
+  -webkit-filter: none !important;
+  color: inherit !important;
+}
+.balance-card .limite-oculto::after { content:none !important; }
+
+#screen-extrato .extrato-topbar { height: 66px !important; padding: 0 18px !important; border: 0 !important; }
+#screen-extrato .extrato-topbar .extrato-back { margin-left: 0 !important; }
+#screen-extrato .extrato-title { display:none !important; }
+#screen-extrato .extrato-help-btn { margin-left:auto !important; }
+#screen-extrato .extrato-head { padding: 30px 29px 18px !important; }
+#screen-extrato .extrato-label { font-size: 18px !important; font-weight: 700 !important; color:#222 !important; margin-bottom: 3px !important; }
+#screen-extrato .extrato-total { font-size: 27px !important; font-weight: 800 !important; letter-spacing:-.4px !important; }
+#screen-extrato .extrato-tabs { padding: 18px 29px 10px !important; gap: 10px !important; }
+#screen-extrato .extrato-tabs .stmt-tab { padding: 11px 20px !important; font-size: 14px !important; border-radius: 24px !important; }
+#screen-extrato .extrato-periodo-ref { padding: 22px 29px 7px !important; display:flex !important; align-items:center !important; justify-content:space-between !important; font-size:16px !important; font-weight:700 !important; }
+#screen-extrato .extrato-periodo-actions { display:flex !important; gap:10px !important; }
+#screen-extrato .extrato-periodo-actions button { width:44px !important; height:44px !important; border:0 !important; border-radius:50% !important; background:#fafafa !important; display:flex !important; align-items:center !important; justify-content:center !important; }
+#screen-extrato .extrato-periodo-actions svg { width:21px !important; height:21px !important; fill:none !important; stroke:#333 !important; stroke-width:1.8 !important; stroke-linecap:round !important; stroke-linejoin:round !important; }
+#screen-extrato .statement-list { padding: 0 29px 105px !important; }
+#screen-extrato .day-label { margin: 16px 0 10px !important; font-size:12px !important; font-weight:700 !important; color:#666 !important; }
+#screen-extrato .movement { min-height:68px !important; padding: 10px 0 !important; gap:14px !important; }
+#screen-extrato .mov-icon { width:48px !important; height:48px !important; background:#fafafa !important; border-radius:12px !important; display:flex !important; align-items:center !important; justify-content:center !important; }
+#screen-extrato .mov-icon svg { width:27px !important; height:27px !important; fill:none !important; stroke:#333 !important; stroke-width:1.6 !important; }
+#screen-extrato .mov-name { font-size:14px !important; font-weight:700 !important; }
+#screen-extrato .mov-desc { font-size:13px !important; color:#777 !important; }
+#screen-extrato .mov-value { font-size:14px !important; font-weight:700 !important; }
+
+#screen-extrato .mov-main { flex:1; min-width:0; }
+#screen-extrato .mov-name { font-size:14px !important; font-weight:700 !important; color:#222 !important; line-height:1.2 !important; }
+#screen-extrato .mov-person { font-size:13px !important; color:#777 !important; margin-top:3px !important; line-height:1.2 !important; }
+#screen-extrato .mov-detail { font-size:12px !important; color:#9a9a9a !important; margin-top:3px !important; line-height:1.2 !important; }
+#screen-extrato .mov-value { white-space:nowrap !important; display:flex !important; align-items:center !important; gap:3px !important; }
+#screen-extrato .mov-chevron { font-size:22px !important; font-weight:400 !important; color:#999 !important; line-height:1 !important; }
 </style>
 </head>
 <body>
@@ -314,22 +958,27 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
       <svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
     </div>
   </div>
+  <div class="account-switcher">
+    <div class="account-pill active" onclick="trocarConta(this, 'PicPay')"><span class="pill-logo">P</span><span>PicPay</span></div>
+    <div class="account-pill" onclick="trocarConta(this, 'PicPay PJ')"><span class="pill-logo dark">P</span><span>PicPay PJ</span></div>
+    <div class="account-add">＋</div>
+  </div>
 
   <div class="balance-card">
     <div class="top">
       <span class="label">Conta</span>
-      <span class="ver-extrato">Ver extrato <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+      <span class="ver-extrato" onclick="showScreen('screen-extrato')">Ver extrato <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
     </div>
     <div class="saldo-label">Saldo em conta</div>
     <div class="saldo-click" onclick="abrirModalSaldo()">
       <div class="saldo-valor" id="home-saldo">R$ 15.000,00</div>
     </div>
-    <div class="limite">Limite disponível: <span id="home-limite">R$ 15.000,00</span></div>
+    <div class="limite rendimento" id="home-limite">Pode render 102% do CDI</div>
     <div class="eye-icon" onclick="toggleSaldo()">
       <svg id="eye-open" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
       <svg id="eye-closed" viewBox="0 0 24 24" style="display:none"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
     </div>
-    <button class="guardar-btn">Guardar dinheiro</button>
+    <button class="guardar-btn" onclick="abrirModalSaldo()">Guardar</button>
   </div>
 
   <div class="section-title">Pro dia a dia</div>
@@ -363,7 +1012,7 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
   </div>
 
   <div class="menu-list" style="margin-top:16px">
-    <div class="menu-item">
+    <div class="menu-item" onclick="showScreen('screen-extrato')">
       <div class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
       <span class="mi-text">PicPay Card</span><span class="mi-arrow">›</span>
     </div>
@@ -420,6 +1069,14 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
     <div class="menu-item"><div class="mi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><span class="mi-text">Ajuda</span><span class="mi-arrow">›</span></div>
   </div>
 
+  <button class="floating-qr" aria-label="Abrir QR Code" onclick="showScreen('screen-pix-area')">
+    <svg class="qr-real-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3" y="3" width="6" height="6" rx="1"/>
+      <rect x="15" y="3" width="6" height="6" rx="1"/>
+      <rect x="3" y="15" width="6" height="6" rx="1"/>
+      <path d="M15 15h3v3h-3zM18 18h3v3h-3zM15 21h3M21 15v3M12 12h2M12 16h1M12 20h1"/>
+    </svg>
+  </button>
   <div class="bottom-nav">
     <div class="nav-item active">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -444,6 +1101,173 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
   </div>
 </div>
 
+
+<!-- EXTRATO -->
+<div class="screen" id="screen-extrato">
+  <div class="extrato-topbar">
+    <button class="extrato-back" onclick="showScreen('screen-home')" aria-label="Voltar">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="extrato-title">Extrato</div>
+    <button class="extrato-help-btn" aria-label="Ajuda">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.2 9a3 3 0 1 1 5.7 1.4c-.8 1.3-2.9 1.7-2.9 3.6"/><path d="M12 17.2h.01"/></svg>
+    </button>
+  </div>
+
+  <div class="extrato-head">
+    <div class="extrato-label">Saldo em conta</div>
+    <div class="extrato-total" id="extrato-saldo">R$ 15.000,00</div>
+  </div>
+
+  <div class="extrato-tabs">
+    <button class="stmt-tab active" id="stmt-recentes" onclick="filtrarMovimentos('recentes')">Recentes</button>
+    <button class="stmt-tab" id="stmt-futuros" onclick="filtrarMovimentos('futuros')">Futuros</button>
+  </div>
+
+  <div class="statement-search" id="statement-search-wrap" style="display:none">
+    <div class="search-extrato-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="statement-search" placeholder="Buscar no extrato" oninput="renderMovimentos()">
+    </div>
+  </div>
+
+  <div class="extrato-periodo extrato-periodo-ref">
+    <span>Movimentações</span>
+    <div class="extrato-periodo-actions">
+      <button type="button" aria-label="Baixar extrato" onclick="alert('Extrato pronto para exportação.')">
+        <svg class="extrato-download-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 3h8l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
+          <path d="M14 3v5h5"/>
+          <path d="M12 10v6"/>
+          <path d="m9.5 13.5 2.5 2.5 2.5-2.5"/>
+        </svg>
+      </button>
+      <button type="button" aria-label="Buscar no extrato" onclick="focarBuscaExtrato()">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="statement-list" id="statement-list"></div>
+
+  <button class="new-launch-fab" onclick="abrirNovoLancamento()" aria-label="Adicionar lançamento">
+    <span>+</span>
+  </button>
+</div>
+
+<!-- NOVO LANÇAMENTO -->
+<div class="screen" id="screen-novo-lancamento">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-extrato')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Novo lançamento</span>
+  </div>
+  <div class="launch-form">
+    <div class="launch-toggle">
+      <button id="launch-saida" class="active" onclick="setTipoLancamento('saida')">Saída</button>
+      <button id="launch-entrada" onclick="setTipoLancamento('entrada')">Entrada</button>
+    </div>
+    <label>Enviado por</label>
+    <input id="launch-nome" type="text" placeholder="Nome ou descrição">
+    <label>Valor</label>
+    <input id="launch-valor" type="text" inputmode="decimal" autocomplete="off" value="0,00" placeholder="0,00" onfocus="selecionarValorLancamento(this)" oninput="formatarCampoLancamento(this)">
+    <label>Descrição opcional</label>
+    <input id="launch-desc" type="text" placeholder="Ex.: Pagamento">
+    <button class="launch-submit" onclick="adicionarLancamento()">Adicionar ao extrato</button>
+  </div>
+</div>
+
+<!-- PIX QR -->
+<div class="screen" id="screen-pix-qr">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-pix-area')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Pagar QR Code</span>
+  </div>
+  <div class="qr-screen">
+    <div class="qr-fake" id="qr-fake-code" aria-label="QR Code">
+  <svg viewBox="0 0 100 100" class="qr-screen-icon">
+    <rect x="5" y="5" width="27" height="27" fill="none" stroke="#111" stroke-width="8"/>
+    <rect x="68" y="5" width="27" height="27" fill="none" stroke="#111" stroke-width="8"/>
+    <rect x="5" y="68" width="27" height="27" fill="none" stroke="#111" stroke-width="8"/>
+    <path d="M48 48h10v10H48zM65 48h10v10H65zM82 48h13v13H82zM48 65h13v13H48zM65 65h10v10H65zM82 65h13v13H82zM48 82h10v13H48zM65 82h13v13H65z" fill="#111"/>
+  </svg>
+</div>
+    <h3>Leia um QR Code</h3>
+    <p>Aponte a câmera para o código ou use Pix Copia e Cola.</p>
+    <button onclick="showScreen('screen-pix-copia')">Usar Pix Copia e Cola</button>
+  </div>
+</div>
+
+<!-- PIX COPIA E COLA -->
+<div class="screen" id="screen-pix-copia">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-pix-area')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Pix Copia e Cola</span>
+  </div>
+  <div class="copy-paste-screen">
+    <label>Cole o código Pix</label>
+    <textarea id="pix-copia-input" placeholder="Cole aqui o código Pix Copia e Cola"></textarea>
+    <button onclick="continuarCopiaCola()">Continuar</button>
+  </div>
+</div>
+
+<!-- COBRAR PIX -->
+<div class="screen" id="screen-cobrar-pix">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-pix-area')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Cobrar com Pix</span>
+  </div>
+  <div class="charge-screen">
+    <h3>Quanto você quer cobrar?</h3>
+    <div class="charge-value"><span>R$</span><input id="charge-value" inputmode="decimal" placeholder="0,00"></div>
+    <input id="charge-desc" class="simple-input" placeholder="Descrição (opcional)">
+    <button onclick="gerarCobranca()">Gerar cobrança</button>
+    <div id="charge-result" class="charge-result" style="display:none"></div>
+  </div>
+</div>
+
+<!-- MINHAS CHAVES -->
+<div class="screen" id="screen-chaves">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-pix-area')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Minhas chaves Pix</span>
+  </div>
+  <div class="keys-screen">
+    <h3>Suas chaves</h3>
+    <div class="key-card">
+      <svg class="key-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="15.5" r="3.5"/><path d="M11 13l8-8M16 7l2 2M14 9l2 2"/></svg>
+      <div><small>Chave Pix</small><strong id="key-screen-value">stephanie009@gmail.com</strong></div>
+      <button onclick="copiarMinhaChave()">Copiar</button>
+    </div>
+    <button class="dark-wide" onclick="cadastrarChaveLocal()">Cadastrar chave</button>
+    <button class="light-wide" onclick="compartilharMinhaChave()">Compartilhar chave</button>
+  </div>
+</div>
+
+<!-- LIMITES PIX -->
+<div class="screen" id="screen-limites">
+  <div class="header">
+    <span class="back" onclick="showScreen('screen-pix-area')">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </span>
+    <span class="title">Meus limites Pix</span>
+  </div>
+  <div class="limits-screen">
+    <h3>Limites Pix</h3>
+    <div class="limit-card"><span>Pix durante o dia</span><strong>R$ 10.000,00</strong><small>Disponível para ajustes</small></div>
+    <div class="limit-card"><span>Pix à noite</span><strong>R$ 1.000,00</strong><small>Das 20h às 6h</small></div>
+    <div class="limit-card"><span>Pix agendado</span><strong>R$ 20.000,00</strong><small>Limite configurado</small></div>
+  </div>
+</div>
+
 <!-- ÁREA PIX -->
 <div class="screen" id="screen-pix-area">
   <div class="header">
@@ -461,31 +1285,31 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
       </div>
       <span class="label">Transferir</span>
     </div>
-    <div class="pix-item">
+    <div class="pix-item" onclick="showScreen('screen-pix-qr')">
       <div class="pix-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       </div>
       <span class="label">Pagar QR Code</span>
     </div>
-    <div class="pix-item">
+    <div class="pix-item" onclick="showScreen('screen-pix-copia')">
       <div class="pix-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       </div>
       <span class="label">Pix Copia e Cola</span>
     </div>
-    <div class="pix-item">
+    <div class="pix-item" onclick="showScreen('screen-cobrar-pix')">
       <div class="pix-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
       </div>
       <span class="label">Cobrar com Pix</span>
     </div>
-    <div class="pix-item">
+    <div class="pix-item" onclick="alert('Central de Ajuda Pix\n\nConsulte as orientações e dúvidas sobre Pix.')">
       <div class="pix-icon light">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
       <span class="label">Central de Ajuda Pix</span>
     </div>
-    <div class="pix-item">
+    <div class="pix-item" onclick="showScreen('screen-limites')">
       <div class="pix-icon light">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
       </div>
@@ -495,7 +1319,7 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
 
   <div class="section-title">Sugestões</div>
   <div class="sug-pix">
-    <div class="sug-pix-item">
+    <div class="sug-pix-item" onclick="showScreen('screen-valor')">
       <div class="sug-pix-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
@@ -508,9 +1332,9 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
   </div>
 
   <div class="minhas-chaves">
-    <div class="chaves-header"><h3>Minhas chaves</h3><span class="cad-chave"> Cadastrar chave</span></div>
+    <div class="chaves-header"><h3>Minhas chaves</h3><span class="cad-chave" onclick="cadastrarChaveLocal()"> Cadastrar chave</span></div>
     <div class="chave-item">
-      <span class="key-icon">🔑</span>
+      <svg class="key-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.5" cy="15.5" r="3.5"/><path d="M11 13l8-8M16 7l2 2M14 9l2 2"/></svg>
       <div class="key-info">
         <div class="key-type">Chave aleatória</div>
         <div class="key-value" id="minha-chave-display">8d66cfb7-78e0-4f...</div>
@@ -520,7 +1344,7 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </div>
     </div>
-    <div class="gerenciar">Gerenciar chaves Pix ›</div>
+    <div class="gerenciar" onclick="showScreen('screen-chaves')">Gerenciar chaves Pix ›</div>
   </div>
 </div>
 
@@ -701,7 +1525,7 @@ body { background: #f0f0f0; display: flex; justify-content: center; min-height: 
 <div class="modal-overlay" id="modal-saldo">
   <div class="modal-saldo">
     <h3>Editar Saldo em Conta</h3>
-    <input type="text" id="modal-saldo-input" placeholder="0,00">
+    <input type="text" id="modal-saldo-input" placeholder="R$ 0,00" inputmode="decimal" autocomplete="off" oninput="formatarSaldoEdit(this)">
     <button class="modal-btn finalizar" onclick="salvarSaldoModal()">Salvar</button>
     <button class="modal-btn cancelar" onclick="fecharModalSaldo()">Cancelar</button>
   </div>
@@ -972,6 +1796,9 @@ function carregarEstado() {
   atualizarUI();
 }
 
+if (!Array.isArray(state.movimentos)) state.movimentos = [];
+if (typeof state.saldoVisivel !== 'boolean') state.saldoVisivel = true;
+
 function salvarEstado() {
   try { 
     const saveState = Object.assign({}, state);
@@ -982,7 +1809,18 @@ function salvarEstado() {
 }
 
 function fmt(v) { return v.toLocaleString('pt-BR', {minimumFractionDigits: 2}); }
-function parseNum(v) { if (!v) return 0; return parseFloat(String(v).replace(/\./g, '').replace(',', '.')) || 0; }
+function parseNum(v) {
+  if (v === null || v === undefined || v === '') return 0;
+  let s = String(v).trim().replace(/R\$/gi, '').replace(/\s/g, '');
+  if (s.includes(',')) {
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else {
+    // A plain integer/decimal such as 15000 or 15000.50.
+    s = s.replace(/[^0-9.-]/g, '');
+  }
+  s = s.replace(/[^0-9.-]/g, '');
+  return Number(s) || 0;
+}
 
 function formatarMoeda(valor) {
   if (!valor || valor === 0) return 'R$ 0,00';
@@ -1013,9 +1851,28 @@ function atualizarBotaoContinuar() {
   }
 }
 
+function sincronizarOlhoSaldo(){
+  const saldoEl = document.getElementById('home-saldo');
+  const eyeOpen = document.getElementById('eye-open');
+  const eyeClosed = document.getElementById('eye-closed');
+  // Oculta somente o valor do saldo. O texto de rendimento permanece visível.
+  if (saldoEl) saldoEl.classList.toggle('saldo-oculto', !state.saldoVisivel);
+  if (eyeOpen) eyeOpen.style.display = state.saldoVisivel ? 'block' : 'none';
+  if (eyeClosed) eyeClosed.style.display = state.saldoVisivel ? 'none' : 'block';
+}
+
 function toggleSaldo() {
   state.saldoVisivel = !state.saldoVisivel;
-  atualizarUI();
+  const saldoEl = document.getElementById('home-saldo');
+  const eyeOpen = document.getElementById('eye-open');
+  const eyeClosed = document.getElementById('eye-closed');
+  if (saldoEl) {
+    saldoEl.textContent = 'R$ ' + fmt(state.saldo);
+    saldoEl.classList.toggle('saldo-oculto', !state.saldoVisivel);
+  }
+  if (eyeOpen) eyeOpen.style.display = state.saldoVisivel ? 'block' : 'none';
+  if (eyeClosed) eyeClosed.style.display = state.saldoVisivel ? 'none' : 'block';
+  salvarEstado();
 }
 
 function atualizarUI() {
@@ -1024,13 +1881,11 @@ function atualizarUI() {
   const eyeOpen = document.getElementById('eye-open');
   const eyeClosed = document.getElementById('eye-closed');
 
-  // Mantém os valores reais no DOM e apenas aplica o desfoque quando ocultos.
-  saldoEl.textContent = 'R$ ' + fmt(state.saldo);
-  limiteEl.textContent = 'R$ ' + fmt(state.saldo);
-  saldoEl.classList.toggle('saldo-oculto', !state.saldoVisivel);
-  limiteEl.classList.toggle('limite-oculto', !state.saldoVisivel);
-  eyeOpen.style.display = state.saldoVisivel ? 'block' : 'none';
-  eyeClosed.style.display = state.saldoVisivel ? 'none' : 'block';
+  if (saldoEl) saldoEl.textContent = 'R$ ' + fmt(state.saldo);
+  if (limiteEl) limiteEl.textContent = 'Pode render 102% do CDI';
+  if (saldoEl) saldoEl.classList.toggle('saldo-oculto', !state.saldoVisivel);
+  if (eyeOpen) eyeOpen.style.display = state.saldoVisivel ? 'block' : 'none';
+  if (eyeClosed) eyeClosed.style.display = state.saldoVisivel ? 'none' : 'block';
   
   document.getElementById('saldo-carteira').textContent = 'R$ ' + fmt(state.carteira);
   document.getElementById('saldo-disp').textContent = 'R$ ' + fmt(state.carteira);
@@ -1101,26 +1956,46 @@ function continuarChave() {
 }
 
 function abrirModalSaldo() {
-  document.getElementById('modal-saldo-input').value = fmt(state.saldo).replace(/\./g, '');
+  const input = document.getElementById('modal-saldo-input');
+  if (input) {
+    input.value = formatarMoeda(Number(state.saldo || 0));
+    input.dataset.raw = String(Math.round(Number(state.saldo || 0) * 100));
+  }
   document.getElementById('modal-saldo').classList.add('active');
+  setTimeout(() => { input?.focus(); input?.select(); }, 80);
+}
+function formatarSaldoEdit(input) {
+  const digits = String(input.value || '').replace(/\D/g, '');
+  if (!digits) { input.value = 'R$ 0,00'; input.dataset.raw = '0'; return; }
+  const cents = parseInt(digits, 10);
+  input.dataset.raw = String(cents);
+  input.value = formatarMoeda(cents / 100);
 }
 function fecharModalSaldo() { document.getElementById('modal-saldo').classList.remove('active'); }
 function salvarSaldoModal() {
-  const v = parseNum(document.getElementById('modal-saldo-input').value);
-  state.saldo = v; state.carteira = v;
+  const input = document.getElementById('modal-saldo-input');
+  const v = input?.dataset.raw ? Number(input.dataset.raw) / 100 : parseNum(input?.value);
+  if (!Number.isFinite(v) || v < 0) return;
+  state.saldo = Number(v.toFixed(2)); state.carteira = state.saldo;
   salvarEstado(); atualizarUI(); fecharModalSaldo();
 }
 
 function salvarTudo() {
-  state.origem.nome = document.getElementById('config-nome-origem').value;
-  state.origem.cpf = document.getElementById('config-cpf-origem').value;
-  state.destinatario.nome = document.getElementById('config-nome-dest').value;
-  state.destinatario.cpf = document.getElementById('config-cpf-dest').value;
-  state.destinatario.inst = document.getElementById('config-inst-dest').value;
-  state.chavePix = document.getElementById('config-chave-pix').value;
+  const get = id => document.getElementById(id);
+  state.origem.nome = get('config-nome-origem')?.value.trim() || state.origem.nome;
+  state.origem.cpf = get('config-cpf-origem')?.value.trim() || state.origem.cpf;
+  state.destinatario.nome = get('config-nome-dest')?.value.trim() || state.destinatario.nome;
+  state.destinatario.cpf = get('config-cpf-dest')?.value.trim() || state.destinatario.cpf;
+  state.destinatario.inst = get('config-inst-dest')?.value.trim() || state.destinatario.inst;
+  state.chavePix = get('config-chave-pix')?.value.trim() || state.chavePix;
   state.destinatario.chave = state.chavePix;
-  salvarEstado(); atualizarUI();
-  alert('Configurações salvas com sucesso!');
+  salvarEstado();
+  atualizarUI();
+  const aviso = document.createElement('div');
+  aviso.textContent = 'Configurações salvas com sucesso';
+  aviso.style.cssText = 'position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:#111;color:#fff;padding:11px 16px;border-radius:22px;font-size:12px;font-weight:700;z-index:9999;box-shadow:0 4px 18px #0003;';
+  document.body.appendChild(aviso);
+  setTimeout(() => aviso.remove(), 1800);
   showScreen('screen-home');
 }
 
@@ -1394,5 +2269,314 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+
+
+
+<script>
+// ===== Funcionalidades extras inspiradas no fluxo do vídeo =====
+function garantirMovimentos() {
+  if (!Array.isArray(state.movimentos)) state.movimentos = [];
+}
+function atualizarExtratoSaldo() {
+  const el=document.getElementById('extrato-saldo');
+  if(el) el.textContent = 'R$ '+fmt(state.saldo);
+}
+function renderMovimentos() {
+  garantirMovimentos();
+  const list=document.getElementById('statement-list'); if(!list) return;
+  const q=(document.getElementById('statement-search')?.value||'').toLowerCase();
+  list.innerHTML='';
+  const grupos={};
+  state.movimentos.forEach((m,i)=>{
+    if(q && !((m.nome||'')+' '+(m.desc||'')).toLowerCase().includes(q)) return;
+    const chave=m.data||'Hoje';
+    (grupos[chave] ||= []).push({...m,_i:i});
+  });
+  Object.keys(grupos).forEach(data=>{
+    const h=document.createElement('div'); h.className='day-label'; h.textContent=data; list.appendChild(h);
+    grupos[data].forEach(m=>{
+      const row=document.createElement('div'); row.className='movement';
+      const sinal=m.tipo==='entrada'?'+':'-';
+      const nomeExtrato = (m.nome || '').trim() || 'Destinatário';
+      const tituloExtrato = m.tipo === 'entrada' ? 'Pix recebido' : 'Pix enviado';
+      const detalheExtrato = m.desc && m.desc !== 'Lançamento manual' ? m.desc : 'Com saldo';
+      row.innerHTML='<div class="mov-icon"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" transform="rotate(45 12 12)"/></svg></div>'+
+        '<div class="mov-main"><div class="mov-name">'+escapeHtml(tituloExtrato)+'</div>'+
+        '<div class="mov-desc mov-person">'+escapeHtml(nomeExtrato)+'</div>'+
+        '<div class="mov-desc mov-detail">'+escapeHtml(detalheExtrato)+(m.hora ? ' · '+escapeHtml(m.hora) : '')+'</div></div>'+
+        '<div class="mov-value '+(m.tipo==='entrada'?'entrada':'')+'">'+sinal+' R$ '+fmt(m.valor)+' <span class="mov-chevron">›</span></div>';
+      list.appendChild(row);
+    });
+  });
+  if(!list.children.length) list.innerHTML='<div style="padding:40px 0;text-align:center;color:#777;font-size:12px">Nenhum lançamento encontrado.</div>';
+  atualizarExtratoSaldo();
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function filtrarMovimentos(tipo){
+  document.querySelectorAll('.stmt-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById(tipo==='recentes'?'stmt-recentes':'stmt-futuros')?.classList.add('active');
+  renderMovimentos();
+}
+function focarBuscaExtrato(){
+  const w=document.getElementById('statement-search-wrap'); if(w) w.style.display='block';
+  setTimeout(()=>document.getElementById('statement-search')?.focus(),50);
+}
+function abrirNovoLancamento(){
+  document.getElementById('launch-nome').value='';
+  document.getElementById('launch-valor').value='0,00';
+  document.getElementById('launch-desc').value='';
+  setTipoLancamento('saida');
+  showScreen('screen-novo-lancamento');
+}
+let tipoLancamentoAtual='saida';
+function setTipoLancamento(tipo){
+  tipoLancamentoAtual=tipo;
+  document.getElementById('launch-saida')?.classList.toggle('active',tipo==='saida');
+  document.getElementById('launch-entrada')?.classList.toggle('active',tipo==='entrada');
+}
+
+
+
+function formatarCampoLancamento(input){
+  const raw = String(input.value || '').replace(/\D/g, '');
+  if (!raw) {
+    input.value = '0,00';
+    return;
+  }
+  const centavos = parseInt(raw, 10);
+  input.value = formatarMoeda(centavos / 100).replace('R$ ', '');
+}
+function selecionarValorLancamento(input){
+  if (input.value === '0,00') {
+    setTimeout(function(){ input.select(); }, 0);
+  }
+}
+
+function adicionarLancamento(){
+  const nome = (document.getElementById('launch-nome')?.value || 'Lançamento').trim();
+  const campoValor = document.getElementById('launch-valor');
+  const valor = parseNum(campoValor?.value);
+  const desc = (document.getElementById('launch-desc')?.value || 'Lançamento manual').trim();
+
+  if (!(valor > 0)) {
+    alert('Informe um valor válido.');
+    campoValor?.focus();
+    return;
+  }
+  if (tipoLancamentoAtual === 'saida' && valor > Number(state.saldo || 0)) {
+    alert('O valor da saída é maior que o saldo disponível.');
+    return;
+  }
+
+  if (!Array.isArray(state.movimentos)) state.movimentos = [];
+  const now = new Date();
+  state.movimentos.unshift({
+    tipo: tipoLancamentoAtual,
+    nome: nome || 'Lançamento',
+    desc: desc || 'Lançamento manual',
+    valor: Number(valor.toFixed(2)),
+    data: 'Hoje',
+    hora: now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})
+  });
+  state.saldo = Number((Number(state.saldo || 0) +
+    (tipoLancamentoAtual === 'entrada' ? valor : -valor)).toFixed(2));
+  state.carteira = state.saldo;
+  salvarEstado();
+  atualizarUI();
+
+  document.getElementById('launch-nome').value = '';
+  document.getElementById('launch-valor').value = '0,00';
+  document.getElementById('launch-desc').value = '';
+
+  showScreen('screen-extrato');
+  renderMovimentos();
+}
+function continuarCopiaCola(){
+  const code=(document.getElementById('pix-copia-input').value||'').trim();
+  if(!code){alert('Cole o código Pix para continuar.');return;}
+  state.chavePix=code;
+  document.getElementById('chave-input-field').value=code;
+  verificarChave();
+  showScreen('screen-valor');
+}
+function gerarCobranca(){
+  const v=parseNum(document.getElementById('charge-value').value);
+  if(!v || v<=0){alert('Informe um valor.');return;}
+  const desc=(document.getElementById('charge-desc').value||'Cobrança Pix').trim();
+  const r=document.getElementById('charge-result');
+  r.style.display='block';
+  r.innerHTML='<strong>Cobrança criada</strong><br>Valor: R$ '+fmt(v)+'<br>Descrição: '+escapeHtml(desc)+'<br><br><small>Esta tela gera uma prévia local da cobrança.</small>';
+}
+function copiarMinhaChave(){
+  const chave=state.chavePix||'';
+  if(navigator.clipboard) navigator.clipboard.writeText(chave).catch(()=>{});
+  alert('Chave copiada.');
+}
+function compartilharMinhaChave(){
+  const texto='Minha chave Pix: '+(state.chavePix||'');
+  if(navigator.share) navigator.share({title:'Minha chave Pix',text:texto}).catch(()=>{});
+  else if(navigator.clipboard){navigator.clipboard.writeText(texto).catch(()=>{});alert('Dados da chave copiados.');}
+}
+function cadastrarChaveLocal(){
+  const nova=prompt('Digite a nova chave Pix:');
+  if(!nova || !nova.trim()) return;
+  state.chavePix=nova.trim();
+  if(state.destinatario) state.destinatario.chave=nova.trim();
+  salvarEstado(); atualizarUI();
+  const k=document.getElementById('key-screen-value'); if(k) k.textContent=state.chavePix;
+  alert('Chave atualizada neste dispositivo.');
+}
+function trocarConta(el,nome){
+  document.querySelectorAll('.account-pill').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  localStorage.setItem('conta_ativa',nome);
+}
+const _showScreenOriginal = showScreen;
+showScreen = function(id){
+  _showScreenOriginal(id);
+  if(id==='screen-extrato'){garantirMovimentos();renderMovimentos();}
+  if(id==='screen-chaves'){
+    const k=document.getElementById('key-screen-value'); if(k) k.textContent=state.chavePix||'';
+  }
+  atualizarExtratoSaldo();
+};
+
+// Sobrescreve a atualização visual apenas acrescentando o extrato.
+const _atualizarUIOriginal = atualizarUI;
+atualizarUI = function(){
+  _atualizarUIOriginal();
+  sincronizarOlhoSaldo();
+  atualizarExtratoSaldo();
+  const k=document.getElementById('key-screen-value'); if(k) k.textContent=state.chavePix||'';
+};
+garantirMovimentos();
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  garantirMovimentos();
+  atualizarUI();
+  renderMovimentos();
+
+  const active = localStorage.getItem('conta_ativa');
+  if (active) {
+    document.querySelectorAll('.account-pill').forEach(function(p) {
+      p.classList.toggle('active', p.innerText.trim() === active);
+    });
+  }
+});
+</script>
+
 </body>
 </html>
+<style>
+/* Correção final: olho não sobrepõe o botão Guardar */
+#screen-home .balance-card .eye-icon {
+  top: 112px !important;
+  bottom: auto !important;
+  right: 14px !important;
+  width: 38px !important;
+  height: 38px !important;
+  z-index: 60 !important;
+}
+#screen-home .balance-card .eye-icon svg {
+  width: 27px !important;
+  height: 27px !important;
+}
+
+/* Ícones SVG reais */
+.key-icon-svg {
+  width: 24px !important;
+  height: 24px !important;
+  flex: 0 0 24px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.floating-qr .qr-real-icon {
+  width: 29px !important;
+  height: 29px !important;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Extrato no padrão da referência: seta à esquerda e ajuda à direita */
+#screen-extrato .extrato-topbar {
+  height: 64px !important;
+  padding: 0 14px !important;
+  border-bottom: 0 !important;
+}
+#screen-extrato .extrato-title { display:none !important; }
+#screen-extrato .extrato-help-btn {
+  width: 42px; height: 42px; border: 0; background: transparent;
+  border-radius: 50%; display:flex; align-items:center; justify-content:center;
+}
+#screen-extrato .extrato-help-btn svg {
+  width: 24px; height:24px; fill:none; stroke:#222; stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+#screen-extrato .extrato-head { padding: 8px 20px 12px !important; }
+#screen-extrato .extrato-label { font-size: 18px !important; color:#222 !important; font-weight:700 !important; margin-bottom:5px !important; }
+#screen-extrato .extrato-total { font-size: 27px !important; font-weight:800 !important; margin:0 !important; }
+#screen-extrato .extrato-tabs { padding: 12px 20px 8px !important; }
+#screen-extrato .extrato-periodo { padding: 16px 20px 4px !important; font-size:16px !important; }
+</style>
+
+<style>
+/* Ajustes finais solicitados */
+.balance-card .eye-icon { bottom:104px !important; }
+#screen-extrato .new-launch-fab { bottom:92px !important; display:flex !important; align-items:center !important; justify-content:center !important; }
+#modal-saldo-input { font-variant-numeric: tabular-nums; }
+</style>
+<script>
+// Garante que o lançamento manual continue disponível e renderize imediatamente no extrato.
+const _adicionarLancamentoOriginal = adicionarLancamento;
+adicionarLancamento = function(){ _adicionarLancamentoOriginal(); garantirMovimentos(); renderMovimentos(); };
+</script>
+
+<style>
+/* Ajuste final solicitado: olho mais alto, sem tocar no Guardar */
+#screen-home .balance-card .eye-icon {
+  top: 88px !important;
+  bottom: auto !important;
+  right: 14px !important;
+  width: 38px !important;
+  height: 38px !important;
+  z-index: 60 !important;
+}
+#screen-home .balance-card .eye-icon svg {
+  width: 27px !important;
+  height: 27px !important;
+}
+
+/* Ícones do extrato no estilo da referência, em SVG */
+#screen-extrato .extrato-periodo-actions button {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  background: #fafafa !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#screen-extrato .extrato-periodo-actions svg {
+  width: 23px !important;
+  height: 23px !important;
+  fill: none !important;
+  stroke: #222 !important;
+  stroke-width: 1.75 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+#screen-extrato .extrato-download-svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+</style>
